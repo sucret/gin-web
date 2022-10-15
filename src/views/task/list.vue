@@ -5,7 +5,7 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="">
-              <router-link :to="{ path:'/aduser/add' }">
+              <router-link :to="{ path:'/task/save' }">
                 <a-button type="primary" icon="plus">新建</a-button>
               </router-link>
             </a-form-item>
@@ -14,27 +14,23 @@
       </a-form>
     </div>
     <div class="list">
-      <a-table :columns="columns" :data-source="list" rowKey="cron_task_id">
+      <a-table :columns="columns" :data-source="list" rowKey="task_id" :key="tableKey">
         <span slot="status" slot-scope="text">
           <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
         </span>
         <span slot="action" slot-scope="text, record">
           <template>
-            <router-link :to="{ path:'/task/edit/' + record.cron_task_id }">
+            <a-button style="padding:0;" type="link" @click="changeStatus(record.task_id, record.status)">{{ record.status == 1 ? '停用' : '启用' }}</a-button>
+            <a-divider type="vertical" />
+            <router-link :to="{ path:'/task/edit/' + record.task_id }">
               <a-button style="padding:0;" type="link">编辑</a-button>
             </router-link>
             <a-divider type="vertical" />
-            <router-link :to="{ path:'/task/save/0/' + record.node_id }">
-              <a-button style="padding:0;" type="link">删除</a-button>
-            </router-link>
-            <a-divider type="vertical" />
-            <router-link :to="{ path:'/node/log/' + record.node_id }">
+            <router-link :to="{ path:'/task/log/' + record.task_id }">
               <a-button style="padding:0;" type="link">日志</a-button>
             </router-link>
             <a-divider type="vertical" />
-            <router-link :to="{ path:'/node/manual/' + record.node_id }">
-              <a-button style="padding:0;" type="link">手动执行</a-button>
-            </router-link>
+            <a-button style="padding:0;" type="link">手动执行</a-button>
           </template>
         </span>
       </a-table>
@@ -43,12 +39,12 @@
 </template>
 
 <script>
-import { getTaskList } from '@/api/task.js'
+import { getTaskList, changeStatus } from '@/api/task.js'
 
 const columns = [
   {
     title: '任务ID',
-    dataIndex: 'cron_task_id'
+    dataIndex: 'task_id'
   },
   {
     title: '任务名称',
@@ -100,7 +96,8 @@ export default {
       form: {
         role_id: 0,
         name: ''
-      }
+      },
+      tableKey: 0
     }
   },
   filters: {
@@ -109,6 +106,24 @@ export default {
     },
     statusTypeFilter (type) {
       return statusMap[type].status
+    }
+  },
+  methods: {
+    changeStatus (taskId, status) {
+      console.log(taskId, status)
+      status = status === 1 ? 2 : 1
+      changeStatus(taskId, status).then(data => {
+        var i = 0
+        for (i in this.list) {
+          if (this.list[i].task_id === taskId) {
+            console.log('aaa', data)
+            this.list[i] = data
+            this.tableKey = new Date().getTime()
+            break
+          }
+        }
+        console.log(data)
+      })
     }
   },
   mounted () {

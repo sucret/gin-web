@@ -42,6 +42,9 @@ const constantRouterComponents = {
   // task
   Task: () => import('@/views/task/index'),
   TaskList: () => import('@/views/task/list'),
+  SaveTask: () => import('@/views/task/save'),
+  EditTask: () => import('@/views/task/save'),
+  TaskLog: () => import('@/views/task/log'),
 
   // list
   TableList: () => import('@/views/list/TableList'),

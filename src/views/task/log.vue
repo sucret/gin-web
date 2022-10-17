@@ -5,6 +5,11 @@
         <span slot="status" slot-scope="text">
           <a-badge :color="text | statusTypeFilter" :text="text | statusFilter" />
         </span>
+        <span slot="action" slot-scope="text, record">
+          <template>
+            <a-button v-if="record.status == 1" style="padding:0;" type="link" @click="stopTask(record.task_log_id)">终止执行</a-button>
+          </template>
+        </span>
       </a-table>
       <a-pagination
         style="margin-top: 20px;text-align: right;"
@@ -23,7 +28,7 @@
 </template>
 
 <script>
-import { taskLog } from '@/api/task.js'
+import { taskLog, stopTask } from '@/api/task.js'
 
 const columns = [
   {
@@ -42,6 +47,7 @@ const columns = [
   },
   {
     title: '执行结果',
+    // ellipsis: true,
     dataIndex: 'log'
   },
   {
@@ -51,6 +57,11 @@ const columns = [
   {
     title: '结束时间',
     dataIndex: 'end_time'
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    scopedSlots: { customRender: 'action' }
   }
 ]
 
@@ -117,6 +128,10 @@ export default {
         this.list = data.list
         this.total = data.total
       })
+    },
+    stopTask (logId) {
+      stopTask(logId).then(data => {})
+      // this.getTaskLog()
     }
   },
   mounted () {

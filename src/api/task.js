@@ -44,3 +44,23 @@ export function taskLog (data) {
     data: data
   })
 }
+
+export function executeTask (taskId) {
+  return request({
+    url: '/task/execute',
+    method: 'get',
+    params: {
+      task_id: taskId
+    }
+  })
+}
+
+export function stopTask (taskLogId) {
+  return request({
+    url: '/task/stop',
+    method: 'get',
+    params: {
+      task_log_id: taskLogId
+    }
+  })
+}

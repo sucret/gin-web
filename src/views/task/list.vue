@@ -30,7 +30,7 @@
               <a-button style="padding:0;" type="link">日志</a-button>
             </router-link>
             <a-divider type="vertical" />
-            <a-button style="padding:0;" type="link">手动执行</a-button>
+            <a-button style="padding:0;" type="link" @click="executeTask(record.task_id)">手动执行</a-button>
           </template>
         </span>
       </a-table>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { getTaskList, changeStatus } from '@/api/task.js'
+import { getTaskList, changeStatus, executeTask } from '@/api/task.js'
 
 const columns = [
   {
@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     changeStatus (taskId, status) {
-      console.log(taskId, status)
       status = status === 1 ? 2 : 1
       changeStatus(taskId, status).then(data => {
         var i = 0
@@ -123,6 +122,11 @@ export default {
           }
         }
         console.log(data)
+      })
+    },
+    executeTask (taskId) {
+      executeTask(taskId).then(data => {
+        this.$message.success('执行成功')
       })
     }
   },

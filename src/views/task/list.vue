@@ -44,7 +44,8 @@ import { getTaskList, changeStatus, executeTask } from '@/api/task.js'
 const columns = [
   {
     title: '任务ID',
-    dataIndex: 'task_id'
+    dataIndex: 'task_id',
+    fixed: 'left'
   },
   {
     title: '任务名称',
@@ -59,7 +60,7 @@ const columns = [
     dataIndex: 'command'
   },
   {
-    title: '进程数(单机)',
+    title: '进程数',
     dataIndex: 'process_num'
   },
   {

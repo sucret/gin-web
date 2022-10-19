@@ -3,16 +3,16 @@
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false" style="margin-top: 24px">
       <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-form-model-item ref="name" label="任务名称" prop="name">
-          <a-input v-model="form.name" placeholder="对应页面的组件名称" />
+          <a-input v-model="form.name" placeholder="任务名称" />
         </a-form-model-item>
         <a-form-model-item ref="spec" label="表达式" prop="spec">
-          <a-input v-model="form.spec" placeholder="对应页面的组件名称" />
+          <a-input v-model="form.spec" placeholder="表达式：@every 1s、 * * * * *" />
         </a-form-model-item>
         <a-form-model-item ref="command" label="命令" prop="command">
-          <a-input v-model="form.command" placeholder="对应页面的组件名称" />
+          <a-input v-model="form.command" placeholder="命令" />
         </a-form-model-item>
-        <a-form-model-item ref="process_num" label="进程数(单机)" prop="process_num">
-          <a-input v-model="form.process_num" placeholder="对应页面的组件名称" />
+        <a-form-model-item ref="process_num" label="进程数" prop="process_num">
+          <a-input v-model="form.process_num" placeholder="进程数，默认1" />
         </a-form-model-item>
         <a-form-model-item ref="status_checkec" label="是否启用" prop="status_checkec">
           <a-switch v-model="form.status_checkec" checked-children="启用" un-checked-children="停用" />
@@ -89,7 +89,7 @@ export default {
           spec: data.spec,
           command: data.command,
           process_num: data.process_num,
-          status: 1,
+          status: data.status,
           status_checkec: parseInt(data.status) === 1
         }
       })

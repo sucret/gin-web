@@ -130,8 +130,9 @@ export default {
       })
     },
     stopTask (logId) {
-      stopTask(logId).then(data => {})
-      // this.getTaskLog()
+      stopTask(logId).then(data => {
+        this.getTaskLog()
+      })
     }
   },
   mounted () {
